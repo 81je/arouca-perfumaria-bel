@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f4ec">
+  <meta name="description" content="Arouca Perfumaria e Beleza: perfumes, cosméticos e autocuidado.">
+  <title>Arouca Perfumaria e Beleza</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+:root {
+  --paper: #f8f4ec;
+  --cream: #e9ded0;
+  --ink: #27231e;
+  --muted: #6b6258;
+  --line: #ded6cb;
+  --accent: #8e4c57;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: var(--white); font-family: 'DM Sans', Arial, sans-serif; }
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+.notice { margin: 14px 14px 0; padding: 14px 16px; background: #29251f; color: white; text-align: center; font-size: 12px; letter-spacing: .07em; line-height: 1.5; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 24px 18px; background: var(--paper); }
+.brand { color: var(--ink); font-family: 'Playfair Display', Georgia, serif; font-size: 19px; font-weight: 700; line-height: 1.15; text-decoration: none; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.round-button, .cart-button { min-height: 48px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); }
+.round-button { width: 48px; font-size: 20px; }
+.cart-button { padding: 0 14px; }
+#cartCount { display: inline-grid; place-items: center; min-width: 24px; height: 24px; margin-left: 5px; border-radius: 50%; background: var(--accent); color: white; }
+.menu-panel { position: absolute; z-index: 5; right: 20px; display: grid; min-width: 180px; padding: 8px; border: 1px solid var(--line); border-radius: 14px; background: white; box-shadow: 0 8px 24px #27231e18; }
+.menu-panel[hidden], .no-results[hidden], .toast[hidden], .cart-backdrop[hidden] { display: none; }
+.menu-panel a { padding: 12px; color: var(--ink); text-decoration: none; border-radius: 8px; }
+.menu-panel a:hover { background: var(--paper); }
+.search-wrap { padding: 0 24px 20px; background: var(--paper); }
+.search-box { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 20px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); }
+.search-box span { font-size: 26px; }
+.search-box input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 16px; }
+.search-box input::placeholder { color: #9c9389; }
+.hero img { display: block; width: 100%; height: clamp(260px, 65vw, 560px); object-fit: cover; }
+.hero-copy { padding: 34px 24px 42px; background: var(--cream); }
+.eyebrow { margin: 0 0 12px; color: var(--accent); font-size: 12px; letter-spacing: .18em; line-height: 1.5; }
+h1, h2, h3, p { overflow-wrap: anywhere; }
+h1, h2 { margin: 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+h1 { max-width: 720px; font-size: clamp(32px, 7vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
+.hero-copy > p:not(.eyebrow) { max-width: 620px; line-height: 1.65; }
+.intro { max-width: 700px; margin: 0 auto; padding: 34px 24px; color: #554e45; font-size: 16px; line-height: 1.7; }
+.primary-button, .add-button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: var(--ink); color: white; text-decoration: none; transition: background .2s ease; }
+.primary-button { min-height: 48px; padding: 0 22px; }
+.primary-button:hover, .add-button:hover { background: var(--accent); }
+.products-section { padding: 48px 24px; }
+h2 { font-size: clamp(27px, 5vw, 38px); line-height: 1.2; }
+.section-intro { margin: 10px 0 24px; color: var(--muted); line-height: 1.6; }
+.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.product-card { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: white; }
+.product-art { display: grid; place-items: center; height: 160px; font-size: 52px; color: #6e4d3f; }
+.perfume-art { background: linear-gradient(135deg, #e8d2ae, #a87954); }
+.care-art { background: linear-gradient(135deg, #e7e2d1, #b9c3a4); }
+.makeup-art { background: linear-gradient(135deg, #f0d5cf, #bd8584); }
+.product-info { padding: 16px; }
+.product-info h3 { margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 18px; }
+.product-info p { min-height: 42px; margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.add-button { width: 100%; min-height: 42px; padding: 8px 12px; font-size: 12px; }
+.demo-note { margin-top: 22px; padding: 14px; border-radius: 10px; background: var(--paper); color: var(--muted); font-size: 13px; line-height: 1.6; }
+.about, .contact { padding: 38px 24px; background: var(--paper); }
+.about p:last-child, .contact p { max-width: 650px; color: var(--muted); line-height: 1.7; }
+.contact { background: white; }
+footer { padding: 26px 24px 36px; background: #29251f; color: white; }
+footer p { max-width: 700px; color: #d7cec3; font-size: 13px; line-height: 1.6; }
+.cart-backdrop { position: fixed; inset: 0; z-index: 20; background: #0007; }
+.cart-panel { position: fixed; z-index: 21; top: 0; right: 0; width: min(420px, 92vw); height: 100dvh; padding: 22px; overflow-y: auto; background: white; box-shadow: -10px 0 30px #0002; transform: translateX(105%); transition: transform .25s ease; }
+.cart-panel.open { transform: translateX(0); }
+.cart-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cart-heading h2 { font-size: 28px; }
+.close-button { border: 0; background: transparent; color: var(--ink); font-size: 32px; }
+.cart-items { display: grid; gap: 12px; padding: 0; list-style: none; }
+.cart-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.cart-item small { display: block; margin-top: 5px; color: var(--muted); }
+.quantity-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.quantity-controls button, .remove-item { border: 1px solid var(--line); border-radius: 8px; padding: 4px 9px; background: white; }
+.remove-item { color: var(--accent); }
+.cart-total { display: flex; justify-content: space-between; margin: 22px 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 18px; }
+.checkout-button { width: 100%; }
+.cart-help { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.toast { position: fixed; z-index: 30; right: 16px; bottom: 20px; left: 16px; max-width: 400px; margin: auto; padding: 14px 18px; border-radius: 12px; background: var(--ink); color: white; text-align: center; box-shadow: 0 6px 24px #0002; }
+
+.product-art { position: relative; align-content: center; gap: 5px; }
+.product-art span { font-size: 56px; line-height: 1; }
+.product-art small { color: #493b33; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.product-category { display: block; margin-bottom: 7px; color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.product-buy-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.product-price { font-size: 18px; white-space: nowrap; }
+.product-buy-row .add-button { width: auto; min-width: 112px; }
+.product-card { display: flex; flex-direction: column; }
+.product-info { display: flex; flex: 1; flex-direction: column; }
+.product-info p { flex: 1; }
+.cart-item strong { font-size: 14px; }
+.cart-item small { font-size: 12px; }
+.cart-help { padding: 12px; border-radius: 10px; background: var(--paper); }
+
+@media (max-width: 600px) {
+  .topbar { padding: 18px 16px; }
+  .brand { font-size: 17px; }
+  .cart-button { padding: 0 10px; font-size: 13px; }
+  .search-wrap { padding: 0 16px 18px; }
+  .hero-copy { padding: 28px 20px 34px; }
+  .intro, .products-section, .about, .contact { padding-right: 18px; padding-left: 18px; }
+  .product-grid { grid-template-columns: 1fr; gap: 18px; }
+  .product-art { height: 180px; }
+  .product-info h3 { font-size: 20px; }
+  .add-button { min-height: 46px; font-size: 14px; }
+}
+
+
+.order-backdrop { position: fixed; inset: 0; z-index: 39; background: #0008; }
+.order-panel { position: fixed; z-index: 40; inset: 50% auto auto 50%; width: min(520px, 94vw); max-height: 92dvh; overflow-y: auto; padding: 22px; border-radius: 18px; background: white; box-shadow: 0 15px 50px #0003; transform: translate(-50%,-50%); }
+.order-panel[aria-hidden="true"] { display: none; }
+.order-intro { color: var(--muted); font-size: 14px; line-height: 1.55; }
+.form-label { display: grid; gap: 7px; margin: 15px 0; color: var(--ink); font-size: 13px; font-weight: 600; }
+.form-label input, .form-label select, .form-label textarea { width: 100%; min-height: 46px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); font: inherit; font-size: 15px; }
+.form-label textarea { resize: vertical; }
+.form-hint { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.form-divider { height: 1px; margin: 18px 0; background: var(--line); }
+.order-panel form button { margin-top: 8px; }
+
+  </style>
+</head>
+<body>
+  <div class="notice">BELEZA PARA CADA RITUAL · AUTOCUIDADO EM CADA DETALHE</div>
+
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Página inicial">Arouca Perfumaria<br>e Beleza</a>
+    <div class="header-actions">
+      <button class="round-button" id="menuButton" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <button class="cart-button" id="cartButton" aria-label="Ver carrinho">
+        <span>Carrinho</span> <b id="cartCount">0</b>
+      </button>
+    </div>
+  </header>
+
+  <nav class="menu-panel" id="menuPanel" hidden>
+    <a href="#inicio">Início</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#sobre">Sobre a loja</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <main>
+    <section class="search-wrap" aria-label="Buscar produtos">
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="Busque seu próximo favorito" aria-label="Buscar produtos">
+      </label>
+    </section>
+
+    <section class="hero" id="inicio">
+      <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1600&q=85" alt="Frascos de perfume em uma composição elegante">
+      <div class="hero-copy">
+        <p class="eyebrow">BELEZA PARA CADA RITUAL</p>
+        <h1>Seu momento de se sentir bem começa aqui.</h1>
+        <p>Perfumes, cuidados e pequenos detalhes que fazem você se sentir especial.</p>
+        <a class="primary-button" href="#produtos">Explorar a vitrine</a>
+      </div>
+    </section>
+
+    <section class="intro">
+      <p>Descubra uma seleção de fragrâncias, cores e cuidados para transformar pequenos instantes em momentos especiais.</p>
+    </section>
+
+    <section class="products-section" id="produtos">
+      <p class="eyebrow">ESCOLHAS PARA VOCÊ</p>
+      <h2>Encontre seu próximo favorito</h2>
+      <p class="section-intro">Conheça nossas categorias e explore sua próxima escolha de beleza.</p>
+
+      <div class="product-grid" id="productGrid">
+        <article class="product-card" data-name="perfume elegance fragrância perfumaria">
+          <div class="product-art perfume-art" aria-hidden="true"><span>✧</span><small>AROMA ELEGANTE</small></div>
+          <div class="product-info">
+            <span class="product-category">PERFUMARIA</span>
+            <h3>Perfume Elegance</h3>
+            <p>Uma fragrância marcante para acompanhar momentos especiais.</p>
+            <div class="product-buy-row"><strong class="product-price">R$ 89,90</strong><button class="add-button" data-id="perfume-elegance">Adicionar</button></div>
+          </div>
+        </article>
+        <article class="product-card" data-name="creme hidratante cuidados pele autocuidado">
+          <div class="product-art care-art" aria-hidden="true"><span>✿</span><small>TOQUE DE CUIDADO</small></div>
+          <div class="product-info">
+            <span class="product-category">CUIDADOS COM A PELE</span>
+            <h3>Creme Hidratante</h3>
+            <p>Um cuidado diário para deixar a pele macia e bem cuidada.</p>
+            <div class="product-buy-row"><strong class="product-price">R$ 39,90</strong><button class="add-button" data-id="creme-hidratante">Adicionar</button></div>
+          </div>
+        </article>
+        <article class="product-card" data-name="batom glamour maquiagem beleza labios">
+          <div class="product-art makeup-art" aria-hidden="true"><span>♡</span><small>SUA COR, SEU ESTILO</small></div>
+          <div class="product-info">
+            <span class="product-category">MAQUIAGEM</span>
+            <h3>Batom Glamour</h3>
+            <p>Cor e personalidade para valorizar sua produção.</p>
+            <div class="product-buy-row"><strong class="product-price">R$ 29,90</strong><button class="add-button" data-id="batom-glamour">Adicionar</button></div>
+          </div>
+        </article>
+      </div>
+      <p class="no-results" id="noResults" hidden>Nenhum produto encontrado. Tente outra busca.</p>
+      <p class="demo-note"><strong>Produtos de demonstração:</strong> nomes e preços fictícios para testar a loja. Antes de divulgar ou vender, substitua pelas informações, fotos, estoque e condições reais.</p>
+    </section>
+
+    <section class="about" id="sobre">
+      <p class="eyebrow">SUA BELEZA, SEU JEITO</p>
+      <h2>Um carinho em cada detalhe</h2>
+      <p>Explore a vitrine e encontre inspiração para presentear alguém especial ou renovar seu ritual de beleza.</p>
+    </section>
+
+    <section class="contact" id="contato">
+      <h2>Fale com a loja</h2>
+      <p>Adicione aqui seu WhatsApp comercial e suas redes sociais quando estiver pronta para publicar.</p>
+    </section>
+  </main>
+
+  <div class="cart-backdrop" id="cartBackdrop" hidden></div>
+  <aside class="cart-panel" id="cartPanel" aria-label="Seu carrinho" aria-hidden="true">
+    <div class="cart-heading">
+      <h2>Seu carrinho</h2>
+      <button class="close-button" id="closeCartButton" aria-label="Fechar carrinho">×</button>
+    </div>
+    <p id="cartEmpty">Seu carrinho está vazio por enquanto.</p>
+    <ul id="cartItems" class="cart-items"></ul>
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+    <button class="primary-button checkout-button" id="checkoutButton">Continuar compra</button>
+    <p class="cart-help">Esta etapa salva o carrinho neste aparelho. O envio do pedido pelo WhatsApp e os pagamentos serão ativados nas próximas etapas.</p>
+  </aside>
+
+
+  <div class="order-backdrop" id="orderBackdrop" hidden></div>
+  <section class="order-panel" id="orderPanel" role="dialog" aria-modal="true" aria-labelledby="orderTitle" aria-hidden="true">
+    <div class="cart-heading"><h2 id="orderTitle">Finalizar pedido</h2><button class="close-button" id="closeOrderButton" type="button" aria-label="Fechar">×</button></div>
+    <p class="order-intro">Preencha os dados para montar sua mensagem de pedido. Você poderá conferir tudo antes de enviar pelo WhatsApp.</p>
+    <form id="orderForm">
+      <label class="form-label">Seu nome<input id="customerName" type="text" autocomplete="name" required placeholder="Como podemos chamar você?"></label>
+      <label class="form-label">Endereço para entrega ou bairro<input id="customerAddress" type="text" autocomplete="street-address" required placeholder="Rua, número e bairro"></label>
+      <label class="form-label">Forma de pagamento desejada<select id="paymentPreference"><option value="Quero combinar o pagamento pelo WhatsApp">Quero combinar pelo WhatsApp</option><option value="Pix (a confirmar com a loja)">Pix (a confirmar com a loja)</option><option value="Cartão (a confirmar com a loja)">Cartão (a confirmar com a loja)</option><option value="Dinheiro na entrega (se disponível)">Dinheiro na entrega (se disponível)</option></select></label>
+      <label class="form-label">Observações (opcional)<textarea id="orderNotes" rows="3" placeholder="Ponto de referência, preferência ou dúvida"></textarea></label>
+      <div class="form-divider"></div>
+      <label class="form-label">WhatsApp da loja (configure uma vez)<input id="storeWhatsapp" type="tel" inputmode="tel" placeholder="Ex.: 55 71 99999-9999" autocomplete="tel"></label>
+      <p class="form-hint">Este número fica salvo somente neste navegador. Use DDI + DDD + número. Não é necessário informar agora.</p>
+      <button class="primary-button checkout-button" type="submit">Revisar e enviar pelo WhatsApp</button>
+    </form>
+  </section>
+
+  <footer>
+    <strong>Arouca Perfumaria e Beleza</strong>
+    <p>Vitrine em desenvolvimento. Os pagamentos reais serão ativados após a configuração segura do servidor e do Mercado Pago.</p>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const menuButton = document.getElementById('menuButton');
+  const menuPanel = document.getElementById('menuPanel');
+  const searchInput = document.getElementById('searchInput');
+  const productCards = [...document.querySelectorAll('.product-card')];
+  const noResults = document.getElementById('noResults');
+  const cartButton = document.getElementById('cartButton');
+  const cartPanel = document.getElementById('cartPanel');
+  const cartBackdrop = document.getElementById('cartBackdrop');
+  const closeCartButton = document.getElementById('closeCartButton');
+  const cartCount = document.getElementById('cartCount');
+  const cartItems = document.getElementById('cartItems');
+  const cartEmpty = document.getElementById('cartEmpty');
+  const cartTotal = document.getElementById('cartTotal');
+  const checkoutButton = document.getElementById('checkoutButton');
+  const toast = document.getElementById('toast');
+  const orderPanel = document.getElementById('orderPanel');
+  const orderBackdrop = document.getElementById('orderBackdrop');
+  const closeOrderButton = document.getElementById('closeOrderButton');
+  const orderForm = document.getElementById('orderForm');
+  const storeWhatsapp = document.getElementById('storeWhatsapp');
+
+  // Produtos fictícios: substitua nomes, descrições e preços antes de vender.
+  const products = [
+    { id: 'perfume-elegance', name: 'Perfume Elegance', price: 89.90 },
+    { id: 'creme-hidratante', name: 'Creme Hidratante', price: 39.90 },
+    { id: 'batom-glamour', name: 'Batom Glamour', price: 29.90 }
+  ];
+  const storageKey = 'arouca-carrinho-demo-v1';
+  let cart = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (Array.isArray(saved)) cart = saved.filter(row => products.some(p => p.id === row.id) && Number.isInteger(row.quantity) && row.quantity > 0);
+  } catch (_) { cart = []; }
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.hidden = false;
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => { toast.hidden = true; }, 2800);
+  }
+  function saveCart() {
+    try { localStorage.setItem(storageKey, JSON.stringify(cart)); } catch (_) { /* armazenamento local indisponível */ }
+  }
+  function formatBRL(value) {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+  function openCart() {
+    cartPanel.classList.add('open');
+    cartPanel.setAttribute('aria-hidden', 'false');
+    cartBackdrop.hidden = false;
+  }
+  function closeCart() {
+    cartPanel.classList.remove('open');
+    cartPanel.setAttribute('aria-hidden', 'true');
+    cartBackdrop.hidden = true;
+  }
+  function renderCart() {
+    cartItems.innerHTML = '';
+    const quantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    cartCount.textContent = String(quantity);
+    cartEmpty.hidden = cart.length > 0;
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'cart-item';
+      const info = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = item.name;
+      const price = document.createElement('small');
+      price.textContent = `${formatBRL(item.price)} cada · Subtotal: ${formatBRL(item.price * item.quantity)}`;
+      const controls = document.createElement('div');
+      controls.className = 'quantity-controls';
+      const minus = document.createElement('button');
+      minus.type = 'button'; minus.textContent = '−';
+      minus.setAttribute('aria-label', `Diminuir quantidade de ${item.name}`);
+      minus.addEventListener('click', () => changeQuantity(item.id, -1));
+      const qty = document.createElement('span'); qty.textContent = String(item.quantity);
+      const plus = document.createElement('button');
+      plus.type = 'button'; plus.textContent = '+';
+      plus.setAttribute('aria-label', `Aumentar quantidade de ${item.name}`);
+      plus.addEventListener('click', () => changeQuantity(item.id, 1));
+      controls.append(minus, qty, plus);
+      info.append(title, price, controls);
+      const remove = document.createElement('button');
+      remove.type = 'button'; remove.className = 'remove-item'; remove.textContent = 'Remover';
+      remove.addEventListener('click', () => removeItem(item.id));
+      li.append(info, remove); cartItems.append(li);
+    });
+    cartTotal.textContent = formatBRL(total);
+    checkoutButton.disabled = cart.length === 0;
+    checkoutButton.style.opacity = cart.length === 0 ? '.55' : '1';
+    saveCart();
+  }
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(item => item.id === id);
+    if (existing) existing.quantity += 1;
+    else cart.push({ ...product, quantity: 1 });
+    renderCart();
+    showToast(`${product.name} adicionado ao carrinho!`);
+  }
+  function changeQuantity(id, delta) {
+    const item = cart.find(entry => entry.id === id);
+    if (!item) return;
+    item.quantity += delta;
+    if (item.quantity <= 0) removeItem(id); else renderCart();
+  }
+  function removeItem(id) {
+    cart = cart.filter(entry => entry.id !== id);
+    renderCart();
+  }
+
+  menuButton.addEventListener('click', () => {
+    const opening = menuPanel.hidden;
+    menuPanel.hidden = !opening;
+    menuButton.setAttribute('aria-expanded', String(opening));
+  });
+  menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    menuPanel.hidden = true; menuButton.setAttribute('aria-expanded', 'false');
+  }));
+  searchInput.addEventListener('input', () => {
+    const term = searchInput.value.trim().toLocaleLowerCase('pt-BR');
+    let visible = 0;
+    productCards.forEach(card => {
+      const match = card.dataset.name.toLocaleLowerCase('pt-BR').includes(term);
+      card.hidden = !match; if (match) visible++;
+    });
+    noResults.hidden = visible !== 0;
+  });
+  document.querySelectorAll('.add-button[data-id]').forEach(button => {
+    button.addEventListener('click', () => addToCart(button.dataset.id));
+  });
+  cartButton.addEventListener('click', openCart);
+  closeCartButton.addEventListener('click', closeCart);
+  cartBackdrop.addEventListener('click', closeCart);
+  function openOrderForm() {
+    if (!cart.length) return;
+    orderPanel.setAttribute('aria-hidden', 'false');
+    orderBackdrop.hidden = false;
+    storeWhatsapp.value = localStorage.getItem('arouca-whatsapp-loja') || '';
+    document.getElementById('customerName').focus();
+  }
+  function closeOrderForm() { orderPanel.setAttribute('aria-hidden', 'true'); orderBackdrop.hidden = true; }
+  checkoutButton.addEventListener('click', openOrderForm);
+  closeOrderButton.addEventListener('click', closeOrderForm);
+  orderBackdrop.addEventListener('click', closeOrderForm);
+  orderForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (!cart.length) return;
+    const rawNumber = storeWhatsapp.value.replace(/\D/g, '');
+    if (rawNumber.length < 12 || rawNumber.length > 13 || !rawNumber.startsWith('55')) {
+      showToast('Configure o WhatsApp da loja com DDI 55 + DDD + número.'); storeWhatsapp.focus(); return;
+    }
+    localStorage.setItem('arouca-whatsapp-loja', rawNumber);
+    const name = document.getElementById('customerName').value.trim();
+    const address = document.getElementById('customerAddress').value.trim();
+    const payment = document.getElementById('paymentPreference').value;
+    const notes = document.getElementById('orderNotes').value.trim();
+    const lines = cart.map(item => `• ${item.name} — ${item.quantity} x ${formatBRL(item.price)} = ${formatBRL(item.price * item.quantity)}`);
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const message = ['Olá! Quero fazer um pedido na Arouca Perfumaria e Beleza.','','Nome: ' + name,'Entrega/bairro: ' + address,'','Meu pedido:',...lines,'','Total dos produtos: ' + formatBRL(total),'Pagamento desejado: ' + payment,notes ? 'Observações: ' + notes : '','Por favor, confirme disponibilidade, entrega/frete e valor final. Sei que o pedido só será confirmado pela loja.'].filter(Boolean).join('\n');
+    window.open(`https://wa.me/${rawNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+    closeOrderForm();
+  });
+  renderCart();
+});
+
+  </script>
+</body>
+</html>

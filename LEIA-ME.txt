@@ -1,0 +1,18 @@
+AROUCA PERFUMARIA E BELEZA — ETAPA 2: PEDIDOS PELO WHATSAPP
+
+COMO TESTAR
+1. Extraia o ZIP em uma pasta do celular.
+2. Abra index.html no Chrome.
+3. Adicione produtos ao carrinho e toque em Continuar compra.
+4. Preencha nome, endereço/bairro e forma de pagamento desejada.
+5. No campo WhatsApp da loja, informe o número que receberá os pedidos no formato 55 + DDD + número (ex.: 5571999999999). Ele fica salvo neste navegador.
+6. Toque em Revisar e enviar pelo WhatsApp. O WhatsApp abrirá com a mensagem preenchida; confira e envie manualmente.
+
+IMPORTANTE
+- Os três produtos e preços são fictícios: Perfume Elegance (R$ 89,90), Creme Hidratante (R$ 39,90) e Batom Glamour (R$ 29,90).
+- Pix/cartão nesta etapa é somente uma preferência informada no pedido. Ainda NÃO há cobrança nem confirmação automática de pagamento.
+- Confirme estoque, frete, prazo e valor final antes de aceitar o pedido.
+- O número do WhatsApp fica salvo localmente neste navegador.
+- Nunca coloque senha ou Access Token do Mercado Pago nos arquivos HTML/JavaScript. A integração real será feita posteriormente com servidor seguro.
+
+Arquivos: index.html (loja completa), style.css e script.js (referência separada).
