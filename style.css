@@ -123,3 +123,37 @@ footer p { max-width: 700px; color: #d7cec3; font-size: 13px; line-height: 1.6; 
 .form-hint { color: var(--muted); font-size: 12px; line-height: 1.5; }
 .form-divider { height: 1px; margin: 18px 0; background: var(--line); }
 .order-panel form button { margin-top: 8px; }
+
+/* NOVO VISUAL AROUCA */
+:root {
+  --paper: #fff7fa;
+  --cream: #f8e8ef;
+  --ink: #382832;
+  --muted: #786873;
+  --line: #ead5df;
+  --accent: #b76e85;
+  --white: #ffffff;
+}
+
+.product-card {
+  border: 1px solid #ead5df;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px #b76e8518;
+}
+
+.product-photo {
+  height: 190px;
+  object-fit: cover;
+}
+
+.add-button {
+  background: #b76e85;
+}
+
+.add-button:hover {
+  background: #8e4c57;
+}
+
+.topbar {
+  border-bottom: 1px solid #ead5df;
+}
