@@ -56,7 +56,13 @@ h1 { max-width: 720px; font-size: clamp(32px, 7vw, 54px); line-height: 1.12; let
 h2 { font-size: clamp(27px, 5vw, 38px); line-height: 1.2; }
 .section-intro { margin: 10px 0 24px; color: var(--muted); line-height: 1.6; }
 .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.product-card { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: white; }
+.product-card {
+  overflow: hidden;
+  border: 1px solid #ead5df;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(183, 110, 133, 0.12);
+}
 .product-art { display: grid; place-items: center; height: 160px; font-size: 52px; color: #6e4d3f; }
 .perfume-art { background: linear-gradient(135deg, #e8d2ae, #a87954); }
 .care-art { background: linear-gradient(135deg, #e7e2d1, #b9c3a4); }
