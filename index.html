@@ -442,9 +442,24 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     if (!cart.length) return;
     const rawNumber = storeWhatsapp.value.replace(/\D/g, '');
-    if (rawNumber.length < 12 || rawNumber.length > 13 || !rawNumber.startsWith('55')) {
-      showToast('Configure o WhatsApp da loja com DDI 55 + DDD + número.'); storeWhatsapp.focus(); return;
-    }
+    
+if (rawNumber.length < 12 || rawNumber.length > 13 || !rawNumber.startsWith('55')) {
+  const name = document.getElementById('customerName').value.trim();
+  const address = document.getElementById('customerAddress').value.trim();
+  const payment = document.getElementById('paymentPreference').value;
+  const notes = document.getElementById('orderNotes').value.trim();
+  const lines = cart.map(item => `• ${item.name} — ${item.quantity} x ${formatBRL(item.price)} = ${formatBRL(item.price * item.quantity)}`);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const message = ['Olá! Quero fazer um pedido na Arouca Perfumaria e Beleza.','','Nome: ' + name,'Entrega/bairro: ' + address,'','Meu pedido:',...lines,'','Total dos produtos: ' + formatBRL(total),'Pagamento desejado: ' + payment,notes ? 'Observações: ' + notes : '','Por favor, confirme disponibilidade, entrega/frete e valor final.'].filter(Boolean).join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(message).then(() => alert('Pedido copiado! Agora cole a mensagem no seu WhatsApp.')).catch(() => alert('Não foi possível copiar automaticamente. Tente novamente.'));
+  } else {
+    alert('Seu navegador não permite copiar automaticamente.');
+  }
+  closeOrderForm();
+  return;
+}
     localStorage.setItem('arouca-whatsapp-loja', rawNumber);
     const name = document.getElementById('customerName').value.trim();
     const address = document.getElementById('customerAddress').value.trim();
